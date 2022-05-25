@@ -1,0 +1,88 @@
+version: "3"
+
+volumes:
+  todo-mysql-volume:
+
+services:
+  todo-server:
+    container_name: todo-server
+    build:
+      context: .
+      dockerfile: ./docker/ap-server/Dockerfile
+    ports:
+      - "8088:8088"
+    tty: true
+    restart: always
+    volumes:
+      - .:/app
+    depends_on:
+      - todo-mysql
+
+  todo-mysql:
+    image: mysql:8.0.21
+    container_name: todo-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_USER: 'todo_user'
+      MYSQL_PASSWORD: 'todo_user123'
+      MYSQL_ROOT_PASSWORD: 'P@ssw0rd'
+      MYSQL_DATABASE: 'todo_app'
+    # MySQLの文字コードを指定する
+    volumes:
+      # DBデータの永続化
+      - todo-mysql-volume:/var/lib/mysql
+      # MySQL起動時にDBを作成し、初期データの投入する
+      - "./Docker/mysql/sql:/docker-entrypoint-initdb.d"
+      - "./Docker/mysql/my.cnf:/etc/mysql/conf.d/etc-mysql.cnf"
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    container_name: "swagger-ui"
+    ports:
+      - "8002:8080"
+    volumes:
+      - ./gen/http/openapi3.yaml:/openapi.yaml
+    environment:
+      SWAGGER_JSON: /openapi.yaml
+
+  go-phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: go-phpmyadmin
+    restart: always
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=todo-mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=P@ssw0rd
+    links:
+      - todo-mysql
+    ports:
+      - 9000:80
+
+  todo-migrate:
+    build:
+      context: .
+      dockerfile: ./docker/migrations/Dockerfile
+    depends_on:
+      - todo-mysql
+    links:
+      - todo-mysql
+    command: ["up"]
+    environment:
+      WAIT_HOSTS: todo-mysql:3306
+      MIGRATIONS_DIR: /migrations
+      MYSQL_HOST: todo-mysql
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: todo_app
+      MYSQL_USER: todo_user
+      MYSQL_PASSWORD: todo_user123
+    volumes:
+      - ./docker/migrations/migrations:/migrations
+
+  go-smtp:
+    image: schickling/mailcatcher
+    container_name: go-smtp
+    ports:
+     - "1080:1080"
+     - "1025:1025"
