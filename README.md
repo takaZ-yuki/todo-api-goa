@@ -8,8 +8,8 @@
 # 環境構築手順
 1. goaのファイル自動生成を実行
 ```bash
-goa gen goa-sample/design
-goa example goa-sample/design
+goa gen todo-api/design
+goa example todo-api/design
 ```
 
 2. dockerの起動

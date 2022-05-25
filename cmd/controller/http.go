@@ -2,14 +2,14 @@ package main
 
 import (
 	"context"
-	usercontrollersvr "goa-sample/gen/http/user_controller/server"
-	usercontroller "goa-sample/gen/user_controller"
 	"log"
 	"net/http"
 	"net/url"
 	"os"
 	"sync"
 	"time"
+	usercontrollersvr "todo-api/gen/http/user_controller/server"
+	usercontroller "todo-api/gen/user_controller"
 
 	goahttp "goa.design/goa/v3/http"
 	httpmdlwr "goa.design/goa/v3/http/middleware"

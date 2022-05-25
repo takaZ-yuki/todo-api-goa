@@ -1,12 +1,9 @@
 package main
 
 import (
-	"goa-sample/src/database"
 	"context"
 	"flag"
 	"fmt"
-	goasample "goa-sample"
-	usercontroller "goa-sample/gen/user_controller"
 	"log"
 	"net"
 	"net/url"
@@ -15,9 +12,21 @@ import (
 	"strings"
 	"sync"
 	"syscall"
+	todoapi "todo-api"
+	usercontroller "todo-api/gen/user_controller"
+	"todo-api/src/database"
+
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	// Load .env file
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	} else {
+		log.Println("LOAD .env file")
+	}
 	// DB接続
 	database.Connect()
 	sqlDB, _ := database.DB.DB()
@@ -40,7 +49,7 @@ func main() {
 		logger *log.Logger
 	)
 	{
-		logger = log.New(os.Stderr, "[goasample] ", log.Ltime)
+		logger = log.New(os.Stderr, "[todoapi] ", log.Ltime)
 	}
 
 	// Initialize the services.
@@ -48,7 +57,7 @@ func main() {
 		userControllerSvc usercontroller.Service
 	)
 	{
-		userControllerSvc = goasample.NewUserController(logger)
+		userControllerSvc = todoapi.NewUserController(logger)
 	}
 
 	// Wrap the services in endpoints that can be invoked from other services

@@ -1,4 +1,4 @@
-module goa-sample
+module todo-api
 
 go 1.17
 

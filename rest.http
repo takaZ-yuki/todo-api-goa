@@ -10,8 +10,8 @@ User-Agent: rest-client
 content-type: application/json
 
 {
-  "name": "Johnsonnn",
-  "email": "test@test.com"
+  "nickname": "Johnsonnn",
+  "mail": "test@test.com"
 }
 
 ### １件検索
@@ -26,8 +26,8 @@ User-Agent: rest-client
 content-type: application/json
 
 {
-  "name": "makaroni",
-  "email": "test2@test.com"
+  "nickname": "makaroni",
+  "mail": "test2@test.com"
 }
 
 ### １件削除

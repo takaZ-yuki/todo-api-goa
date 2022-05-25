@@ -1,9 +1,9 @@
 package main
 
 import (
-	cli "goa-sample/gen/http/cli/controller"
 	"net/http"
 	"time"
+	cli "todo-api/gen/http/cli/controller"
 
 	goahttp "goa.design/goa/v3/http"
 	goa "goa.design/goa/v3/pkg"

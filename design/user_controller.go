@@ -1,6 +1,8 @@
 package design
 
 import (
+	"todo-api/design/types"
+
 	. "goa.design/goa/v3/dsl"
 )
 
@@ -16,7 +18,7 @@ var _ = Service("user_controller", func() {
 		Error("NotFound")
 		Error("BadRequest")
 
-		Result(ArrayOf(User))
+		Result(ArrayOf(types.User))
 
 		HTTP(func() {
 			GET("/")
@@ -36,7 +38,7 @@ var _ = Service("user_controller", func() {
 			Required("id")
 		})
 
-		Result(User)
+		Result(types.User)
 
 		HTTP(func() {
 			GET("/{id}")
@@ -48,7 +50,7 @@ var _ = Service("user_controller", func() {
 
 	Method("UpdateUser", func() {
 		Description("ユーザ更新")
-		Payload(User)
+		Payload(types.User)
 		Result(Empty)
 		Error("NotFound")
 		Error("BadRequest")
@@ -56,8 +58,8 @@ var _ = Service("user_controller", func() {
 		HTTP(func() {
 			PUT("/{id}")
 			Body(func() {
-				Attribute("name")
-				Attribute("email")
+				Attribute("mail")
+				Attribute("nickname")
 				//TODO: 必須設定
 				// Required("name")
 			})
@@ -70,7 +72,7 @@ var _ = Service("user_controller", func() {
 
 	Method("CreateUser", func() {
 		Description("ユーザ登録")
-		Payload(User)
+		Payload(types.User)
 		Result(Empty)
 		Error("NotFound")
 		Error("BadRequest")
@@ -78,8 +80,8 @@ var _ = Service("user_controller", func() {
 		HTTP(func() {
 			POST("/")
 			Body(func() {
-				Attribute("name")
-				Attribute("email")
+				Attribute("mail")
+				Attribute("nickname")
 				//TODO: 必須設定
 				// Required("name")
 			})

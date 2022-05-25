@@ -1,12 +1,13 @@
-package goasample
+package todoapi
 
 import (
-	"goa-sample/src/database"
-	"goa-sample/src/domain/model"
 	"context"
-	usercontroller "goa-sample/gen/user_controller"
-	"github.com/jinzhu/copier"
 	"log"
+	usercontroller "todo-api/gen/user_controller"
+	"todo-api/src/database"
+	"todo-api/src/domain/model"
+
+	"github.com/jinzhu/copier"
 )
 
 // user_controller service example implementation.
@@ -55,7 +56,9 @@ func (s *userControllersrvc) GetUser(ctx context.Context, p *usercontroller.GetU
 // ユーザ更新
 func (s *userControllersrvc) UpdateUser(ctx context.Context, p *usercontroller.User) (err error) {
 	s.logger.Print("userController.UpdateUser")
-	user := model.User{}
+	user := model.User{ID: *p.ID}
+	// ユーザー検索
+	database.DB.Take(&user)
 	copier.Copy(&user, &p)
 
 	// ユーザー更新処理

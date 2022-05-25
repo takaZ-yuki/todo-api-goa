@@ -94,7 +94,7 @@ func main() {
 }
 
 func usage() {
-	fmt.Fprintf(os.Stderr, `%s is a command line client for the goa sample API.
+	fmt.Fprintf(os.Stderr, `%s is a command line client for the TODO API API.
 
 Usage:
     %s [-host HOST][-url URL][-timeout SECONDS][-verbose|-v][-version VERSION] SERVICE ENDPOINT [flags]

@@ -1,6 +1,8 @@
 package design
 
-import . "goa.design/goa/v3/dsl"
+import (
+	. "goa.design/goa/v3/dsl"
+)
 
 // API describes the global properties of the API server.
 var _ = API("TODO API", func() {
@@ -16,7 +18,7 @@ var _ = API("TODO API", func() {
       Description("")
 
 			// このサーバーによってホストされているサービスを列挙します
-			Services("todo_controller")
+			Services("user_controller")
 			// Services("todo_controller")
 
 			// ホストとそのトランスポート URL を列挙します。
