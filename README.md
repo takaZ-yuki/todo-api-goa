@@ -36,5 +36,5 @@ rest.httpファイルにVSCodeのREST拡張仕様のファイルを用意して�
 
 ## マイグレーション
 ```
-docker-compose run todo-migrate up 1
+docker-compose run todo-migrate up
 ```
